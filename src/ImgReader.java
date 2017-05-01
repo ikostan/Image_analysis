@@ -9,5 +9,5 @@ public class ImgReader {
 	private Image[] images; 
 	
 	
-	
+	//ImageReader
 }

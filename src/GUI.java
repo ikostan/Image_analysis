@@ -3,8 +3,11 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import javax.swing.DefaultComboBoxModel;
 
 public class GUI extends JFrame{
 	
@@ -20,7 +23,7 @@ public class GUI extends JFrame{
 		getContentPane().setLayout(null);
 		
 		setLables(); //Create lables
-		setCombos(); //Create combo-boxes
+		//setCombos(); //Create combo-boxes
 		setCompareBtn(); //Compare button 
 		setCloseBtn(); //Close button
 		setResetBtn(); //Create Reset button
@@ -39,7 +42,7 @@ public class GUI extends JFrame{
 		getContentPane().add(lblSelectImageOne);
 		
 		JLabel lblSelectImageTwo = new JLabel("Select image:");
-		lblSelectImageTwo.setBounds(280, 26, 79, 14);
+		lblSelectImageTwo.setBounds(265, 26, 79, 14);
 		getContentPane().add(lblSelectImageTwo);
 		
 		JLabel lblVs = new JLabel("VS");
@@ -48,14 +51,16 @@ public class GUI extends JFrame{
 	}
 	
 	//Set combo-boxes
-	private void setCombos(){
+	public void setCombos(Object[] arrayList){
 		
 		JComboBox comboImageOne = new JComboBox();
-		comboImageOne.setBounds(36, 51, 115, 20);
+		comboImageOne.setModel(new DefaultComboBoxModel(arrayList));
+		comboImageOne.setBounds(36, 51, 135, 20);
 		getContentPane().add(comboImageOne);
 		
 		JComboBox comboImageTwo = new JComboBox();
-		comboImageTwo.setBounds(280, 51, 115, 20);
+		comboImageTwo.setModel(new DefaultComboBoxModel(arrayList));
+		comboImageTwo.setBounds(265, 51, 135, 20);
 		getContentPane().add(comboImageTwo);
 	}
 	
