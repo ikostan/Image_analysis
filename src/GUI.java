@@ -24,9 +24,11 @@ public class GUI extends JFrame{
 	public static void main(String[] args) {
 		
 		DirectoryReader imgFinder = new DirectoryReader(); //search for images
-		String[] images = imgFinder.getImgName();
+		String[] images = imgFinder.getImgName(); //generate array with the name of all images
+		
 		GUI guiClient = new GUI(images); //Run GUI client
-			
+		
+		//Create ImageReader object + pass selected images and images path
 		ImgReader myReader = new ImgReader(imgFinder.getImgPath(), guiClient.getSelectedIndx(1), guiClient.getSelectedIndx(2));	
 		
 	}
@@ -103,7 +105,6 @@ public class GUI extends JFrame{
 		
 		//setCompareBtn
 	}
-	
 	
 	//Create Close button
 	private void setCloseBtn(){

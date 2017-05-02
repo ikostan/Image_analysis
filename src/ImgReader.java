@@ -10,13 +10,12 @@ import javax.swing.JOptionPane;
 public class ImgReader {
 
 	//Class fields
-	
 	private BufferedImage buffImgOne;
-	private BufferedImage buffImgTwo;	
-	
+	private BufferedImage buffImgTwo;		
 	private File[] images; 
 	
 	
+	//Constructor
 	public ImgReader(ArrayList<String> imgName, int selectedIndx, int selectedIndx2) {
 		
 		try{
@@ -43,27 +42,7 @@ public class ImgReader {
 		}
 	}
 
-
-	//Draw image
-	private void drawImage(BufferedImage image){
-		
-		int width = setImgWidth(image);
-		int height = setImgHeight(image);
-		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-	}
-	
-	//Image height
-	public int setImgHeight(BufferedImage image){
-		
-		return image.getHeight();
-	}
-	
-	//Image width
-	public int setImgWidth(BufferedImage image){
-		
-		return image.getWidth();
-	}
-	
+	//Load selected images
 	private void setSelectedImages(int selectedOne, int selectedTwo){
 		
 		//Selected image #1
