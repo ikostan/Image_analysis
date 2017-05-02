@@ -55,6 +55,7 @@ public class DirectoryReader {
 				
 					for(String extention : extentions){
 						
+						//Ignore casing
 						if(fileName.contains(extention.toUpperCase()) || fileName.contains(extention.toLowerCase())){
 							
 							//System.out.println("Match found: " + fileName); //Debug only		
