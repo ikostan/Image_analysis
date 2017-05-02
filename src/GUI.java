@@ -3,22 +3,22 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.awt.Component;
-import java.awt.ItemSelectable;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.DefaultComboBoxModel;
 
 public class GUI extends JFrame{
 	
+	private static final long serialVersionUID = 1L;
+	
 	//class fields
 	private JTextField textResult;
-	private JComboBox comboImageOne, comboImageTwo;
+	private JComboBox<Object[]> comboImageOne, comboImageTwo;
 	static int indxOne,indxTwo;
-	
+	private static ArrayList<String> imagesPath;
+	private JTextField textImageAsize;
+	private JTextField textImageBsize;
 	
 	//main method
 	public static void main(String[] args) {
@@ -27,9 +27,11 @@ public class GUI extends JFrame{
 		String[] images = imgFinder.getImgName(); //generate array with the name of all images
 		
 		GUI guiClient = new GUI(images); //Run GUI client
+		guiClient.setImagessPath(imgFinder.getImgPath());
+		
 		
 		//Create ImageReader object + pass selected images and images path
-		ImgReader myReader = new ImgReader(imgFinder.getImgPath(), guiClient.getSelectedIndx(1), guiClient.getSelectedIndx(2));	
+
 		
 	}
 	
@@ -71,16 +73,18 @@ public class GUI extends JFrame{
 	}
 	
 	//Set combo-boxes
-	public void setCombos(Object[] arrayList){
+	public void setCombos(String[] images){
 		
-		comboImageOne = new JComboBox();
-		comboImageOne.setModel(new DefaultComboBoxModel(arrayList));
+		//String[] list = (String[]) arrayList.toArray();
+		
+		comboImageOne = new JComboBox<Object[]>();
+		comboImageOne.setModel(new DefaultComboBoxModel(images));
 		comboImageOne.addActionListener(new FirstCombo());
 		comboImageOne.setBounds(36, 51, 135, 20);
 		getContentPane().add(comboImageOne);
 		
-		comboImageTwo = new JComboBox();
-		comboImageTwo.setModel(new DefaultComboBoxModel(arrayList));
+		comboImageTwo = new JComboBox<Object[]>();
+		comboImageTwo.setModel(new DefaultComboBoxModel(images));
 		comboImageTwo.addActionListener(new SecondCombo());
 		comboImageTwo.setBounds(260, 51, 135, 20);
 		getContentPane().add(comboImageTwo);
@@ -96,8 +100,16 @@ public class GUI extends JFrame{
 			
 			public void actionPerformed(ActionEvent e) {
 				
-				getSelectedIndx(1);
-				getSelectedIndx(2);
+				ImgReader myReader = new ImgReader(imagesPath, getSelectedIndx(1), getSelectedIndx(2));	
+				
+				textImageAsize.setText("(h/w): " + myReader.getImgHeight(1) + " x " + myReader.getImgWidth(1));
+				textImageBsize.setText("(h/w): " + myReader.getImgHeight(2) + " x " + myReader.getImgWidth(2));
+				
+				textResult.setText("Please wait while calculating the result...");
+				//getSelectedIndx(1);
+				//getSelectedIndx(2);
+				double diffPercent = myReader.imageCompare();
+				textResult.setText("Percantage of diference between two pictures: " + Double.toString(diffPercent) + "%");
 			}
 		});
 		btnCompare.setBounds(169, 171, 89, 23);
@@ -131,8 +143,12 @@ public class GUI extends JFrame{
 			//Reset button event handler
 			public void actionPerformed(ActionEvent e) {
 				
+				textImageAsize.setText("Image size: ?");
+				textImageBsize.setText("Image size: ?");
+				
 				comboImageOne.setSelectedIndex(0);
 				comboImageTwo.setSelectedIndex(0);
+				
 				textResult.setText("Please select images and click on \"Compare\" button");
 			}
 		});
@@ -145,10 +161,38 @@ public class GUI extends JFrame{
 		
 		textResult = new JTextField();
 		textResult.setEditable(false);
-		textResult.setBounds(36, 108, 359, 29);
+		textResult.setBounds(36, 119, 359, 29);
 		textResult.setText("Please select images and click on \"Compare\" button");
 		getContentPane().add(textResult);
 		textResult.setColumns(10);
+		
+		textImageAsize = new JTextField();
+		textImageAsize.setEditable(false);
+		textImageAsize.setText("Image size: ?");
+		textImageAsize.setBounds(36, 82, 133, 20);
+		getContentPane().add(textImageAsize);
+		textImageAsize.setColumns(10);
+		
+		textImageBsize = new JTextField();
+		textImageBsize.setEditable(false);
+		textImageBsize.setText("Image size: ?");
+		textImageBsize.setColumns(10);
+		textImageBsize.setBounds(260, 82, 133, 20);
+		getContentPane().add(textImageBsize);
+		
+		JButton btnNewButton = new JButton("?");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				ImgReader myReader = new ImgReader(imagesPath, getSelectedIndx(1), getSelectedIndx(2));	
+				
+				textImageAsize.setText("(h/w): " + myReader.getImgHeight(1) + " x " + myReader.getImgWidth(1));
+				textImageBsize.setText("(h/w): " + myReader.getImgHeight(2) + " x " + myReader.getImgWidth(2));
+				
+			}
+		});
+		btnNewButton.setBounds(195, 79, 41, 23);
+		getContentPane().add(btnNewButton);
 		
 		//setTxtField
 	}
@@ -158,15 +202,15 @@ public class GUI extends JFrame{
 		
 		if(combo == 1){
 			
-			this.indxOne = comboImageOne.getSelectedIndex();
+			GUI.indxOne = comboImageOne.getSelectedIndex();
 			//System.out.println(indxOne); //DEBUG ONLY
-			return this.indxOne;
+			return GUI.indxOne;
 		}
 		else{
 			
-			this.indxTwo = comboImageTwo.getSelectedIndex();
+			GUI.indxTwo = comboImageTwo.getSelectedIndex();
 			//System.out.println(indxTwo); //DEBUG ONLY
-			return this.indxTwo;
+			return GUI.indxTwo;
 		}
 		
 	}
@@ -195,6 +239,13 @@ public class GUI extends JFrame{
 		}
 		
 		//SecondCombo
+	}
+	
+	
+	
+	public void setImagessPath(ArrayList<String> path){
+		
+		this.imagesPath = path;
 	}
 	
 	//End

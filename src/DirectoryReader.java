@@ -27,13 +27,6 @@ public class DirectoryReader {
 		clearImgName();	
 	}
 	
-	//Display all file names from the folder
-	private void displayFileNames(){
-		
-		for(File file : files){
-			System.out.println(file);
-		}
-	}
 	
 	//Create list of file/picture extensions
 	private void setExtentions(){
@@ -112,17 +105,17 @@ public class DirectoryReader {
 	//GETTERS
 	public String getCurrentDirectory(){
 		//Root folder
-		return this.rootFolder;
+		return DirectoryReader.rootFolder;
 	}
 	
 	public ArrayList<String> getImgPath(){
 		//Image array
-		return this.imagesPath;
+		return DirectoryReader.imagesPath;
 	}
 	
 	public String[] getImgName(){
 		//Image array
-		return this.imagesName;
+		return DirectoryReader.imagesName;
 	}
 	
 	//DirectoryReader
