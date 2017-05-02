@@ -114,9 +114,9 @@ public class GUI extends JFrame{
 				//calcImgSize();			
 				textResult.setText("Please wait while calculating the result...");
 
-				//double diffPercent = myReader.imageCompare();
+				double diffPercent = myReader.imageCompare();
 				
-				//textResult.setText(String.format("Percantage of diference between two pictures: %.2f", diffPercent));
+				textResult.setText(String.format("Percantage of diference between two pictures: %.2f", diffPercent));
 			}
 		});
 		btnCompare.setBounds(169, 171, 89, 23);

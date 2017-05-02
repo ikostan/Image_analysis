@@ -12,6 +12,8 @@ public class ImgReader {
 	private File[] images; 
 	private BufferedImage buffImgOne, buffImgTwo;			
 	private int heightOne, heightTwo, widthOne, widthTwo;
+	private static int x = 0; //width starting point
+	private static int y = 0; //height starting point
 		
 	//Constructor
 	public ImgReader(ArrayList<String> imgName, int selectedIndx, int selectedIndx2) {
@@ -152,26 +154,51 @@ public class ImgReader {
 			return buffImgOne.getHeight();
 		}
 	}
-	
-	
-	private static int x = 0; //width starting point
-	private static int y = 0; //height starting point
-	
-	
-	//Calcu;ate difference between two pixels
+		
+	//Calculate difference between two pixels
 	private double colorDiff(int rgbOne, int rgbTwo){
 		
-		double diff = 0.0;
+		int r1 = (rgbOne >> 16) & 0xff; //Red color
+		int g1 = (rgbOne >> 8) & 0xff; 	//Green color
+		int b1 = (rgbOne) & 0xff;		//Blue color
+	
+		int r2 = (rgbTwo >> 16) & 0xff; //Red color
+		int g2 = (rgbTwo >> 8) & 0xff;	//Green color
+		int b2 = (rgbTwo) & 0xff;		//Blue color
+	
+		return (Math.abs(r1 - r2) + Math.abs(g1 - g2) +  Math.abs(b1 - b2)); //Calculate difference between colors
+	}
+	
+	public double imageCompare(){
 		
-		int r1 = (rgbOne >> 16) & 0xff;
-		int g1 = (rgbOne >> 8) & 0xff;
-		int b1 = (rgbOne) & 0xff;
-	
-		int r2 = (rgbTwo >> 16) & 0xff;
-		int g2 = (rgbTwo >> 8) & 0xff;
-		int b2 = (rgbTwo) & 0xff;
-	
-		return diff = (Math.abs(r1 - r2) + Math.abs(g1 - g2) +  Math.abs(b1 - b2)) / 3.0 / 255.0; //Calculate difference between colors
+		long diff = 0;
+		int rgbOne, rgbTwo;
+		
+		//buffImgOne, buffImgTwo;
+		
+		for(y = 0; y < buffImgOne.getHeight(); y++){
+			
+			for(x = 0; x < buffImgOne.getWidth(); x++){
+				
+				rgbOne = buffImgOne.getRGB(x, y);
+				rgbTwo = buffImgTwo.getRGB(x, y);
+				
+				diff += colorDiff(rgbOne, rgbTwo);
+			}
+			
+			if(y % 10 == 0){
+				
+				System.out.println("still looping..."); //DEBUG ONLY
+			}
+		}
+		
+		System.out.println("DONE!!!"); //DEBUG ONLY
+
+		double n = buffImgOne.getWidth() * buffImgOne.getHeight() * 3.0 ;
+		double p = (diff / n / 255.0) * 100.0; //Percentage
+		p  = Double.parseDouble(String.format("%.2f", p)); //Display two decimal digits only
+				
+		return (p * 100.0); //Percentage		
 	}
 	
 	//Return image width
