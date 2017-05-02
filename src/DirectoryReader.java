@@ -3,6 +3,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class DirectoryReader {
 
 	private static Path currentRelativePath;
@@ -70,9 +72,14 @@ public class DirectoryReader {
 			}
 		}
 		catch(Exception ex){
-			System.out.println(ex.getCause());
-			System.out.println(ex.toString());
-			System.out.println(ex.getMessage());
+			
+			//System.out.println(ex.getCause());
+			//System.out.println(ex.toString());
+			//System.out.println(ex.getMessage());
+			JOptionPane.showMessageDialog(null,
+				    ex.getMessage(),
+				    "General error",
+				    JOptionPane.ERROR_MESSAGE);
 		}
 		//filterImages
 	}
