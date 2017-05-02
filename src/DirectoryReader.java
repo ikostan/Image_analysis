@@ -54,8 +54,8 @@ public class DirectoryReader {
 					fileName = file.toString();
 				
 					for(String extention : extentions){
-					
-						if(fileName.contains(extention)){
+						
+						if(fileName.contains(extention.toUpperCase()) || fileName.contains(extention.toLowerCase())){
 							
 							//System.out.println("Match found: " + fileName); //Debug only		
 							imagesPath.add(fileName);
