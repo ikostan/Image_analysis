@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.Color;
 
 public class GUI extends JFrame{
 	
@@ -28,6 +29,7 @@ public class GUI extends JFrame{
 		
 		GUI guiClient = new GUI(images); //Run GUI client
 		guiClient.setImagessPath(imgFinder.getImgPath());
+		guiClient.calcImgSize();
 		
 	}
 	
@@ -35,7 +37,7 @@ public class GUI extends JFrame{
 	public GUI(String[] images) {
 				
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //X button
-		this.setSize(440,260); //Window size
+		this.setSize(440,270); //Window size
 		setResizable(false); //Not re-sizable
 		setTitle("Image analysis"); //Title
 		getContentPane().setLayout(null);
@@ -87,7 +89,7 @@ public class GUI extends JFrame{
 		
 	}
 	
-	
+	//Calculate selected images dimentions and display them
 	private void calcImgSize(){
 		//Create ImageReader object + pass selected images and images path
 		ImgReader myReader = new ImgReader(imagesPath, getSelectedIndx(1), getSelectedIndx(2));	
@@ -109,12 +111,12 @@ public class GUI extends JFrame{
 				//Create ImageReader object + pass selected images and images path
 				ImgReader myReader = new ImgReader(imagesPath, getSelectedIndx(1), getSelectedIndx(2));	
 				
-				calcImgSize();			
+				//calcImgSize();			
 				textResult.setText("Please wait while calculating the result...");
 
-				double diffPercent = myReader.imageCompare();
+				//double diffPercent = myReader.imageCompare();
 				
-				textResult.setText(String.format("Percantage of diference between two pictures: %.2f", diffPercent));
+				//textResult.setText(String.format("Percantage of diference between two pictures: %.2f", diffPercent));
 			}
 		});
 		btnCompare.setBounds(169, 171, 89, 23);
@@ -185,15 +187,10 @@ public class GUI extends JFrame{
 		textImageBsize.setBounds(260, 82, 133, 20);
 		getContentPane().add(textImageBsize);
 		
-		JButton btnNewButton = new JButton("?");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				calcImgSize();				
-			}
-		});
-		btnNewButton.setBounds(195, 79, 41, 23);
-		getContentPane().add(btnNewButton);
+		JLabel lblNewLabel = new JLabel("*Program limitation: max picture size allowed: 700 x 700");
+		lblNewLabel.setForeground(Color.RED);
+		lblNewLabel.setBounds(36, 216, 359, 14);
+		getContentPane().add(lblNewLabel);
 		
 		//setTxtField
 	}
@@ -247,11 +244,9 @@ public class GUI extends JFrame{
 	}
 	
 	
-	
+	//
 	public void setImagessPath(ArrayList<String> path){
 		
 		this.imagesPath = path;
 	}
-	
-	//End
 }

@@ -12,8 +12,7 @@ public class ImgReader {
 	private File[] images; 
 	private BufferedImage buffImgOne, buffImgTwo;			
 	private int heightOne, heightTwo, widthOne, widthTwo;
-	
-	
+		
 	//Constructor
 	public ImgReader(ArrayList<String> imgName, int selectedIndx, int selectedIndx2) {
 		
@@ -71,6 +70,7 @@ public class ImgReader {
 		}
 	}
 	
+	//Return buffered image according to selected index
 	public BufferedImage getBuffImage(int index){
 		
 		try{
@@ -93,88 +93,88 @@ public class ImgReader {
 			}
 	}
 	
-	//identifies larger image
-	private BufferedImage getLargerImg(){
+	//identifies larger width
+	private int getMaxX(){
 		
-		if((buffImgOne.getWidth() + buffImgOne.getHeight()) >= (buffImgTwo.getWidth() + buffImgTwo.getHeight())){
+		if((buffImgOne.getWidth() - buffImgTwo.getWidth()) == 0){
 			
-			return buffImgOne;
+			return buffImgOne.getWidth();
+		}
+		else if((buffImgOne.getWidth() - buffImgTwo.getWidth()) > 0){
+			
+			return buffImgOne.getWidth();
 		}
 		else{
 			
-			return buffImgTwo;
+			return buffImgTwo.getWidth();
 		}
 	}
 	
-	//identifies smaller image
-	private BufferedImage getSmallerImg(){
+	//identifies larger height
+	private int getMaxY(){
 		
-		if((buffImgOne.getWidth() + buffImgOne.getHeight()) < (buffImgTwo.getWidth() + buffImgTwo.getHeight())){
+		if((buffImgOne.getHeight() - buffImgTwo.getHeight()) == 0){
 			
-			return buffImgOne;
+			return buffImgOne.getHeight();
+		}
+		else if((buffImgOne.getHeight() - buffImgTwo.getHeight()) > 0){
+			
+			return buffImgOne.getHeight();
 		}
 		else{
 			
-			return buffImgTwo;
+			return buffImgTwo.getHeight();
+		}
+	}
+	
+	//identifies smaller width
+	private int getSmallerX(){
+		
+		if((buffImgOne.getWidth() - buffImgTwo.getWidth()) >= 0){
+			
+			return buffImgTwo.getWidth();
+		}
+		else{
+			
+			return buffImgOne.getWidth();
+		}
+	}
+	
+	//identifies smaller height
+	private int getSmallerY(){
+		
+		if((buffImgOne.getHeight() - buffImgTwo.getHeight()) >= 0){
+			
+			return buffImgTwo.getHeight();
+		}
+		else{
+			
+			return buffImgOne.getHeight();
 		}
 	}
 	
 	
-	public double imageCompare(){
+	private static int x = 0; //width starting point
+	private static int y = 0; //height starting point
+	
+	
+	//Calcu;ate difference between two pixels
+	private double colorDiff(int rgbOne, int rgbTwo){
 		
-		BufferedImage one = getLargerImg();
-		BufferedImage two = getSmallerImg();
+		double diff = 0.0;
 		
-		long diff = 0;
-		
-		int width = one.getWidth();
-		int height = one.getHeight();
-		
-		//JOptionPane.showMessageDialog(null, String.format("width: %d, height: %d", width, height)); DEBUG ONLY
-		
-		try{
-			for(int y = 0; y < height; y++){
-			
-				for(int x = 0; x < width; x++){
-				
-					System.out.println(String.format("X:%d Y:%d", x,y));
-					
-					int rgbOne = one.getRGB(x, y); //Get pixels color
-					int rgbTwo = two.getRGB(x, y); //Get pixels color
-				
-					int r1 = (rgbOne >> 16) & 0xff;
-					int g1 = (rgbOne >> 8) & 0xff;
-					int b1 = (rgbOne) & 0xff;
-				
-					int r2 = (rgbTwo >> 16) & 0xff;
-					int g2 = (rgbTwo >> 8) & 0xff;
-					int b2 = (rgbTwo) & 0xff;
-				
-					diff += Math.abs(r1 - r2) + Math.abs(g1 - g2) +  Math.abs(b1 - b2); //Calculate difference between colors
-			
-				}			
-			}
-		} 
-		catch(Exception ex){
-			
-			JOptionPane.showMessageDialog(null,
-				    ex.getMessage(),
-				    "General error",
-				    JOptionPane.ERROR_MESSAGE);
-		}
-		
-		/*
-		 * n - holds information how many times script added differences of colors of every pixel to diff. 
-		 * Color value is between 0 and 255 for RGB.
-		 * n times 255 is the maximum difference possible. That is if all colors had a difference of 255. 
-		 * diff is the actual difference. To get percentage you have to divide actual with total and multiply with 100.0
-		 */
-		
-		double n = one.getWidth() * one.getHeight() * 3;
-		double percent = (diff/ n / 255.0) * 100.0;
-		return percent;
+		int r1 = (rgbOne >> 16) & 0xff;
+		int g1 = (rgbOne >> 8) & 0xff;
+		int b1 = (rgbOne) & 0xff;
+	
+		int r2 = (rgbTwo >> 16) & 0xff;
+		int g2 = (rgbTwo >> 8) & 0xff;
+		int b2 = (rgbTwo) & 0xff;
+	
+		return diff = (Math.abs(r1 - r2) + Math.abs(g1 - g2) +  Math.abs(b1 - b2)) / 3.0 / 255.0; //Calculate difference between colors
 	}
 	
+	//Return image width
 	public int getImgWidth(int i){
 		
 		if(i == 1){
@@ -185,6 +185,7 @@ public class ImgReader {
 		}
 	}
 	
+	//Return image height
 	public int getImgHeight(int i){
 		
 		if(i == 1){
@@ -193,6 +194,24 @@ public class ImgReader {
 		else{
 			return buffImgTwo.getHeight();
 		}
+	}
+	
+	//Check if pucture maz size (700 px) exceeded
+	private boolean picMaxSize(BufferedImage one){
+		
+		boolean isTrue = false;
+		int max = 700; //max picture size
+		
+		if(one.getWidth() > max){
+			
+			isTrue = true;
+		}
+		else if(one.getHeight() > max){
+			
+			isTrue = true;
+		}
+		
+		return isTrue;
 	}
 	
 	//ImageReader
