@@ -1,7 +1,7 @@
 # Image analysis
 
 ## GUI example:
-![GUI](https://github.com/ikostan/Exploring_Lake_Pend_Oreille/blob/master/Capture.PNG?raw=true "GUI screenshot")
+![GUI](https://github.com/ikostan/Image_analysis/blob/master/screenshot.PNG?raw=true "GUI screenshot")
 
 ### Lynda.com: Code Clinic for Java - Image analysis
 
