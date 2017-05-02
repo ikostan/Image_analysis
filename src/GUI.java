@@ -29,10 +29,6 @@ public class GUI extends JFrame{
 		GUI guiClient = new GUI(images); //Run GUI client
 		guiClient.setImagessPath(imgFinder.getImgPath());
 		
-		
-		//Create ImageReader object + pass selected images and images path
-
-		
 	}
 	
 	//Constructor
@@ -50,7 +46,7 @@ public class GUI extends JFrame{
 		setCloseBtn(); //Close button
 		setResetBtn(); //Create Reset button
 		setTxtField(); //Create text field
-	
+		
 		this.setVisible(true);
 	}
 	
@@ -88,6 +84,16 @@ public class GUI extends JFrame{
 		comboImageTwo.addActionListener(new SecondCombo());
 		comboImageTwo.setBounds(260, 51, 135, 20);
 		getContentPane().add(comboImageTwo);
+		
+	}
+	
+	
+	private void calcImgSize(){
+		//Create ImageReader object + pass selected images and images path
+		ImgReader myReader = new ImgReader(imagesPath, getSelectedIndx(1), getSelectedIndx(2));	
+		
+		textImageAsize.setText("(h/w): " + myReader.getImgHeight(1) + " x " + myReader.getImgWidth(1));
+		textImageBsize.setText("(h/w): " + myReader.getImgHeight(2) + " x " + myReader.getImgWidth(2));
 	}
 	
 	//Create Compare button
@@ -100,16 +106,15 @@ public class GUI extends JFrame{
 			
 			public void actionPerformed(ActionEvent e) {
 				
+				//Create ImageReader object + pass selected images and images path
 				ImgReader myReader = new ImgReader(imagesPath, getSelectedIndx(1), getSelectedIndx(2));	
 				
-				textImageAsize.setText("(h/w): " + myReader.getImgHeight(1) + " x " + myReader.getImgWidth(1));
-				textImageBsize.setText("(h/w): " + myReader.getImgHeight(2) + " x " + myReader.getImgWidth(2));
-				
+				calcImgSize();			
 				textResult.setText("Please wait while calculating the result...");
-				//getSelectedIndx(1);
-				//getSelectedIndx(2);
+
 				double diffPercent = myReader.imageCompare();
-				textResult.setText("Percantage of diference between two pictures: " + Double.toString(diffPercent) + "%");
+				
+				textResult.setText(String.format("Percantage of diference between two pictures: %.2f", diffPercent));
 			}
 		});
 		btnCompare.setBounds(169, 171, 89, 23);
@@ -184,11 +189,7 @@ public class GUI extends JFrame{
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				ImgReader myReader = new ImgReader(imagesPath, getSelectedIndx(1), getSelectedIndx(2));	
-				
-				textImageAsize.setText("(h/w): " + myReader.getImgHeight(1) + " x " + myReader.getImgWidth(1));
-				textImageBsize.setText("(h/w): " + myReader.getImgHeight(2) + " x " + myReader.getImgWidth(2));
-				
+				calcImgSize();				
 			}
 		});
 		btnNewButton.setBounds(195, 79, 41, 23);
@@ -223,6 +224,8 @@ public class GUI extends JFrame{
 			
 			indxOne = comboImageOne.getSelectedIndex();
 			//System.out.println(indxOne); //DEBUG ONLY
+			
+			calcImgSize();
 		}
 
 		//FirstCombo
@@ -236,6 +239,8 @@ public class GUI extends JFrame{
 			
 			indxTwo = comboImageTwo.getSelectedIndex();
 			//System.out.println(indxTwo); //DEBUG ONLY
+			
+			calcImgSize();
 		}
 		
 		//SecondCombo
