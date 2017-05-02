@@ -1,4 +1,8 @@
 # Image analysis
+
+## GUI example:
+![GUI](https://github.com/ikostan/Exploring_Lake_Pend_Oreille/blob/master/Capture.PNG?raw=true "GUI screenshot")
+
 ### Lynda.com: Code Clinic for Java - Image analysis
 
 ## Code clinic is a monthly course where a unique problem is introduced to a collection of lynda.com authors. In response, each author will create a solution using their programming language of choice. You can learn several things from code clinic, different approaches to solving a problem, the pros and cons of different languages, and some tips and tricks to incorporate into your own coding practices. 
