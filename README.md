@@ -1,5 +1,7 @@
 # Image analysis
 
+### NOTE: This thing is still a Work in Progress. Files, instructions, and other stuff might change!
+
 ## GUI example:
 ![GUI](https://github.com/ikostan/Image_analysis/blob/master/screenshot.PNG?raw=true "GUI screenshot")
 
